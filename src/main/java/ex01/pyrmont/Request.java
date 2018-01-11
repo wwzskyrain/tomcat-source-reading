@@ -1,4 +1,4 @@
-package pyrmont;
+package ex01.pyrmont;
 
 import java.io.IOException;
 import java.io.InputStream;
