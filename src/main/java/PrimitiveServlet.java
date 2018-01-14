@@ -12,6 +12,10 @@ public class PrimitiveServlet implements Servlet {
             throws ServletException, IOException {
         System.out.println("from service");
 
+//        Request castedRequest = (Request) request;
+//        castedRequest.parse();
+//       method parser() should not be access in servlet.
+
         PrintWriter out = response.getWriter();
 //      http response headers
         out.println("HTTP/1.1 200 OK");
