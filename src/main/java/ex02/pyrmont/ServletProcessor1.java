@@ -23,6 +23,8 @@ public class ServletProcessor1 {
             // the forming of repository is taken from the createClassLoader method in
             // org.apache.catalina.startup.ClassLoaderFactory
             String repository = (new URL("file", null, classPath.getCanonicalPath() + File.separator)).toString();
+//          repository="file:/Users/nali/project_erik/tomcat-source-reading/webroot/".
+//          看不懂，为什么吧URL转成String（repository）之后再构造URL.
             // the code for forming the URL is taken from the addRepository method in
             // org.apache.catalina.loader.StandardClassLoader class.
             urls[0] = new URL(null, repository, streamHandler);

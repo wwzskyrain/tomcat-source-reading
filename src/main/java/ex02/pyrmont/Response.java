@@ -1,5 +1,7 @@
 package ex02.pyrmont;
 
+import ex.util.ResponseHelper;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import java.io.*;
@@ -37,8 +39,7 @@ public class Response implements ServletResponse {
       */
 
 //      如英文注释所写，发送静态html文件之前，应该先发送http相应报文的头部信息
-
-
+            output.write(ResponseHelper.getResponseWithOnlyHeaderLine().getBytes());
 
             int ch = fis.read(bytes, 0, BUFFER_SIZE);
             while (ch != -1) {

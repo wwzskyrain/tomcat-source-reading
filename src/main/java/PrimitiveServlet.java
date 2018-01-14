@@ -27,6 +27,8 @@ public class PrimitiveServlet implements Servlet {
 //      http response body.
         out.println("Hello. Roses are red.");
         out.print("Violets are blue.");
+//        out.flush();    //out默认是没有自动刷新，如果注释掉这句，那么Violets are blue就不会发送的给客户端.
+
     }
 
     public void destroy() {
