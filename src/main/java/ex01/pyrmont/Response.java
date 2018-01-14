@@ -1,5 +1,7 @@
 package ex01.pyrmont;
 
+import ex.util.ResponseHelper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,12 +29,6 @@ public class Response {
         this.request = request;
     }
 
-    public String getResponseHead() {
-
-        String successHttpResponseHeader = "HTTP/1.1 200 OK \n\n";
-        return successHttpResponseHeader;
-
-    }
 
     public void sendStaticResource() throws IOException {
         byte[] bytes = new byte[BUFFER_SIZE];
@@ -43,7 +39,7 @@ public class Response {
                 fis = new FileInputStream(file);
                 //在发送正文之前，要发送HttpResponse第一行加0个或多个响应头，
                 // 毕竟要保持Http响应报文的格式的。不然，浏览器会显示"invalid response"。
-                output.write(getResponseHead().getBytes());
+                output.write(ResponseHelper.getResponseWithOnlyHeaderLine().getBytes());
 
                 int ch = fis.read(bytes, 0, BUFFER_SIZE); //发送的是文件原始数据，就是发送字节。
                 while (ch != -1) {
