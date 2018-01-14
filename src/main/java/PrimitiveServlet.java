@@ -8,13 +8,6 @@ public class PrimitiveServlet implements Servlet {
         System.out.println("init");
     }
 
-    private String getResponseWithOnlyHeaderLine() {
-
-        String successHttpResponseHeader = "HTTP/1.1 200 OK \n\n";
-        return successHttpResponseHeader;
-
-    }
-
     public void service(ServletRequest request, ServletResponse response)
             throws ServletException, IOException {
         System.out.println("from service");
