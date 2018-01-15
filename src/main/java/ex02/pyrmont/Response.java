@@ -38,7 +38,7 @@ public class Response implements ServletResponse {
          Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
       */
 
-//      如英文注释所写，发送静态html文件之前，应该先发送http相应报文的头部信息
+//      如英文注释所写，发送静态html文件之前，应该先发送http相应报文的头部信息---
             output.write(ResponseHelper.getResponseWithOnlyHeaderLine().getBytes());    //增加注释-2
 
             int ch = fis.read(bytes, 0, BUFFER_SIZE);
