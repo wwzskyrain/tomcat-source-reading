@@ -39,7 +39,7 @@ public class Response implements ServletResponse {
       */
 
 //      如英文注释所写，发送静态html文件之前，应该先发送http相应报文的头部信息
-            output.write(ResponseHelper.getResponseWithOnlyHeaderLine().getBytes());
+            output.write(ResponseHelper.getResponseWithOnlyHeaderLine().getBytes());    //增加注释
 
             int ch = fis.read(bytes, 0, BUFFER_SIZE);
             while (ch != -1) {
