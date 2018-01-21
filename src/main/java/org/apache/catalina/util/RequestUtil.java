@@ -287,6 +287,8 @@ public final class RequestUtil {
                 semicolon = header.length();
             if (semicolon == 0)
                 break;
+
+//  学习这种截取方法：不是按照分号；来形成数组，而是逐个吃掉，串行操作。
             String token = header.substring(0, semicolon);
             if (semicolon < header.length())
                 header = header.substring(semicolon + 1);
@@ -303,7 +305,7 @@ public final class RequestUtil {
                 ;
             }
         }
-
+//  还记得List到数据Array的这个函数吗，去年夏天咱们可是很熟悉的。
         return ((Cookie[]) cookies.toArray(new Cookie[cookies.size()]));
 
     }

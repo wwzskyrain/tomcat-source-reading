@@ -3,11 +3,12 @@ package ex03.pyrmont.connector.http;
 
 
 /**
- * HTTP request line enum type.
+ * HTTP request line enum type.<br/>
+ * 主要组成部分：方法、uri、协议<br/>
+ * 另外：参数不属于请求行，而属于"请求".
  *
  * @author Remy Maucherat
  * @version $Revision: 1.6 $ $Date: 2002/03/18 07:15:40 $
- * @deprecated
  */
 
 final class HttpRequestLine {

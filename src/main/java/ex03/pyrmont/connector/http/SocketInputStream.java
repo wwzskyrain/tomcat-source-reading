@@ -152,7 +152,8 @@ public class SocketInputStream extends InputStream {
 
         boolean space = false;
 
-        while (!space) {
+
+        while (!space) {    //读请求行的第一部分：http方法
             // if the buffer is full, extend it
             if (readCount >= maxRead) {
                 if ((2 * maxRead) <= HttpRequestLine.MAX_METHOD_SIZE) {
@@ -196,7 +197,7 @@ public class SocketInputStream extends InputStream {
 
         boolean eol = false;
 
-        while (!space) {
+        while (!space) {    //分析请求行的uri部分.
             // if the buffer is full, extend it
             if (readCount >= maxRead) {
                 if ((2 * maxRead) <= HttpRequestLine.MAX_URI_SIZE) {
@@ -239,7 +240,7 @@ public class SocketInputStream extends InputStream {
         readStart = pos;
         readCount = 0;
 
-        while (!eol) {
+        while (!eol) {  //分析请求行的协议部分
             // if the buffer is full, extend it
             if (readCount >= maxRead) {
                 if ((2 * maxRead) <= HttpRequestLine.MAX_PROTOCOL_SIZE) {
@@ -521,14 +522,15 @@ public class SocketInputStream extends InputStream {
 
 
     /**
-     * Fill the internal buffer using data from the undelying input stream.
+     * Fill the internal buffer using data from the undelying input stream.<br/>
+     * pos<count表示读到了内容.
      */
     protected void fill()
             throws IOException {
         pos = 0;
         count = 0;
         int nRead = is.read(buf, 0, buf.length);
-        if (nRead > 0) {
+        if (nRead > 0) {    //如果没有读到任何东西，nRead才会返回-1，相应，pos的值就会小于count.
             count = nRead;
         }
     }

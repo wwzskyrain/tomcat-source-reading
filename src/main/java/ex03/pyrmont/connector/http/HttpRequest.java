@@ -71,7 +71,8 @@ public class HttpRequest implements HttpServletRequest {
 
     /**
      * The HTTP headers associated with this Request, keyed by name.  The
-     * values are ArrayLists of the corresponding header values.
+     * values are ArrayLists of the corresponding header values.<br/>
+     * headers的数据结构:HashMap<String,ArrayList<String>>
      */
     protected HashMap headers = new HashMap();
     /**
@@ -155,6 +156,7 @@ public class HttpRequest implements HttpServletRequest {
         } else {
             contentType = contentType.trim();
         }
+//  参数不在求情行，而在请求体中的三个条件：Post请求、ContentLength、请求头contentType="application/x-www-form-urlencoded".
         if ("POST".equals(getMethod()) && (getContentLength() > 0)
                 && "application/x-www-form-urlencoded".equals(contentType)) {
             try {

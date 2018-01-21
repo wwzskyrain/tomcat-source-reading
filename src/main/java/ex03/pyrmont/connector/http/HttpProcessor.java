@@ -150,7 +150,7 @@ public class HttpProcessor {
         }
         // Parse any query parameters out of the request URI
         int question = requestLine.indexOf("?");
-        if (question >= 0) {
+        if (question >= 0) {    //如果有查询字符串，就为请求request设置"查询字符串"。注意查询字符串还不是"请求参数"。
             request.setQueryString(new String(requestLine.uri, question + 1,
                     requestLine.uriEnd - question - 1));
             uri = new String(requestLine.uri, 0, question);
@@ -198,12 +198,12 @@ public class HttpProcessor {
         String normalizedUri = normalize(uri);
 
         // Set the corresponding request properties
-        ((HttpRequest) request).setMethod(method);
+        request.setMethod(method);
         request.setProtocol(protocol);
         if (normalizedUri != null) {
-            ((HttpRequest) request).setRequestURI(normalizedUri);
+            request.setRequestURI(normalizedUri);
         } else {
-            ((HttpRequest) request).setRequestURI(uri);
+            request.setRequestURI(uri);
         }
 
         if (normalizedUri == null) {
