@@ -66,16 +66,5 @@ public class ResponseFacade implements ServletResponse {
         response.setLocale(locale);
     }
 
-//  简单实现ServletResponse接口
 
-
-    @Override
-    public String getContentType() {
-        return null;
-    }
-
-    @Override
-    public void setCharacterEncoding(String charset) {
-
-    }
 }

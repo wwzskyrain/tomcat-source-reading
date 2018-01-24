@@ -1,25 +1,22 @@
 package org.apache.catalina.connector;
 
 
-import java.io.*;
-import java.net.MalformedURLException;
-// import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUtils;
-
 import org.apache.catalina.*;
 import org.apache.catalina.util.CookieTools;
 import org.apache.catalina.util.URL;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.*;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+// import java.net.URL;
 
 
 /**
@@ -35,12 +32,12 @@ import org.apache.catalina.util.URL;
  */
 
 public class HttpResponseBase
-    extends ResponseBase
-    implements HttpResponse, HttpServletResponse {
+        extends ResponseBase
+        implements HttpResponse, HttpServletResponse {
 
 
     protected class PrivilegedFlushBuffer
-        implements PrivilegedExceptionAction {
+            implements PrivilegedExceptionAction {
 
         PrivilegedFlushBuffer() {
         }
@@ -75,7 +72,7 @@ public class HttpResponseBase
      * The date format we will use for creating date headers.
      */
     protected final SimpleDateFormat format =
-        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz",Locale.US);
+            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
 
     /**
@@ -97,7 +94,7 @@ public class HttpResponseBase
      * Descriptive information about this HttpResponse implementation.
      */
     protected static final String info =
-        "org.apache.catalina.connector.HttpResponseBase/1.0";
+            "org.apache.catalina.connector.HttpResponseBase/1.0";
 
 
     /**
@@ -139,17 +136,17 @@ public class HttpResponseBase
      * Perform whatever actions are required to flush and close the output
      * stream or writer, in a single operation.
      *
-     * @exception IOException if an input/output error occurs
+     * @throws IOException if an input/output error occurs
      */
     public void finishResponse() throws IOException {
 
         // If an HTTP error >= 400 has been created with no content,
         // attempt to create a simple error message
         if (!isCommitted() &&
-            (stream == null) && (writer == null) &&
-            (status >= HttpServletResponse.SC_BAD_REQUEST) &&
-            (contentType == null) &&
-            (contentCount == 0)) {
+                (stream == null) && (writer == null) &&
+                (status >= HttpServletResponse.SC_BAD_REQUEST) &&
+                (contentType == null) &&
+                (contentCount == 0)) {
             try {
                 setContentType("text/html");
                 PrintWriter writer = getWriter();
@@ -230,11 +227,6 @@ public class HttpResponseBase
     }
 
 
-
-
-
-
-
     /**
      * Return an array of all the header values associated with the
      * specified header name, or an zero-length array if there are no such
@@ -296,8 +288,8 @@ public class HttpResponseBase
      * Reset this response, and specify the values for the HTTP status code
      * and corresponding message.
      *
-     * @exception IllegalStateException if this response has already been
-     *  committed
+     * @throws IllegalStateException if this response has already been
+     *                               committed
      */
     public void reset(int status, String message) {
 
@@ -318,94 +310,94 @@ public class HttpResponseBase
     protected String getStatusMessage(int status) {
 
         switch (status) {
-        case SC_OK:
-            return ("OK");
-        case SC_ACCEPTED:
-            return ("Accepted");
-        case SC_BAD_GATEWAY:
-            return ("Bad Gateway");
-        case SC_BAD_REQUEST:
-            return ("Bad Request");
-        case SC_CONFLICT:
-            return ("Conflict");
-        case SC_CONTINUE:
-            return ("Continue");
-        case SC_CREATED:
-            return ("Created");
-        case SC_EXPECTATION_FAILED:
-            return ("Expectation Failed");
-        case SC_FORBIDDEN:
-            return ("Forbidden");
-        case SC_GATEWAY_TIMEOUT:
-            return ("Gateway Timeout");
-        case SC_GONE:
-            return ("Gone");
-        case SC_HTTP_VERSION_NOT_SUPPORTED:
-            return ("HTTP Version Not Supported");
-        case SC_INTERNAL_SERVER_ERROR:
-            return ("Internal Server Error");
-        case SC_LENGTH_REQUIRED:
-            return ("Length Required");
-        case SC_METHOD_NOT_ALLOWED:
-            return ("Method Not Allowed");
-        case SC_MOVED_PERMANENTLY:
-            return ("Moved Permanently");
-        case SC_MOVED_TEMPORARILY:
-            return ("Moved Temporarily");
-        case SC_MULTIPLE_CHOICES:
-            return ("Multiple Choices");
-        case SC_NO_CONTENT:
-            return ("No Content");
-        case SC_NON_AUTHORITATIVE_INFORMATION:
-            return ("Non-Authoritative Information");
-        case SC_NOT_ACCEPTABLE:
-            return ("Not Acceptable");
-        case SC_NOT_FOUND:
-            return ("Not Found");
-        case SC_NOT_IMPLEMENTED:
-            return ("Not Implemented");
-        case SC_NOT_MODIFIED:
-            return ("Not Modified");
-        case SC_PARTIAL_CONTENT:
-            return ("Partial Content");
-        case SC_PAYMENT_REQUIRED:
-            return ("Payment Required");
-        case SC_PRECONDITION_FAILED:
-            return ("Precondition Failed");
-        case SC_PROXY_AUTHENTICATION_REQUIRED:
-            return ("Proxy Authentication Required");
-        case SC_REQUEST_ENTITY_TOO_LARGE:
-            return ("Request Entity Too Large");
-        case SC_REQUEST_TIMEOUT:
-            return ("Request Timeout");
-        case SC_REQUEST_URI_TOO_LONG:
-            return ("Request URI Too Long");
-        case SC_REQUESTED_RANGE_NOT_SATISFIABLE:
-            return ("Requested Range Not Satisfiable");
-        case SC_RESET_CONTENT:
-            return ("Reset Content");
-        case SC_SEE_OTHER:
-            return ("See Other");
-        case SC_SERVICE_UNAVAILABLE:
-            return ("Service Unavailable");
-        case SC_SWITCHING_PROTOCOLS:
-            return ("Switching Protocols");
-        case SC_UNAUTHORIZED:
-            return ("Unauthorized");
-        case SC_UNSUPPORTED_MEDIA_TYPE:
-            return ("Unsupported Media Type");
-        case SC_USE_PROXY:
-            return ("Use Proxy");
-        case 207:       // WebDAV
-            return ("Multi-Status");
-        case 422:       // WebDAV
-            return ("Unprocessable Entity");
-        case 423:       // WebDAV
-            return ("Locked");
-        case 507:       // WebDAV
-            return ("Insufficient Storage");
-        default:
-            return ("HTTP Response Status " + status);
+            case SC_OK:
+                return ("OK");
+            case SC_ACCEPTED:
+                return ("Accepted");
+            case SC_BAD_GATEWAY:
+                return ("Bad Gateway");
+            case SC_BAD_REQUEST:
+                return ("Bad Request");
+            case SC_CONFLICT:
+                return ("Conflict");
+            case SC_CONTINUE:
+                return ("Continue");
+            case SC_CREATED:
+                return ("Created");
+            case SC_EXPECTATION_FAILED:
+                return ("Expectation Failed");
+            case SC_FORBIDDEN:
+                return ("Forbidden");
+            case SC_GATEWAY_TIMEOUT:
+                return ("Gateway Timeout");
+            case SC_GONE:
+                return ("Gone");
+            case SC_HTTP_VERSION_NOT_SUPPORTED:
+                return ("HTTP Version Not Supported");
+            case SC_INTERNAL_SERVER_ERROR:
+                return ("Internal Server Error");
+            case SC_LENGTH_REQUIRED:
+                return ("Length Required");
+            case SC_METHOD_NOT_ALLOWED:
+                return ("Method Not Allowed");
+            case SC_MOVED_PERMANENTLY:
+                return ("Moved Permanently");
+            case SC_MOVED_TEMPORARILY:
+                return ("Moved Temporarily");
+            case SC_MULTIPLE_CHOICES:
+                return ("Multiple Choices");
+            case SC_NO_CONTENT:
+                return ("No Content");
+            case SC_NON_AUTHORITATIVE_INFORMATION:
+                return ("Non-Authoritative Information");
+            case SC_NOT_ACCEPTABLE:
+                return ("Not Acceptable");
+            case SC_NOT_FOUND:
+                return ("Not Found");
+            case SC_NOT_IMPLEMENTED:
+                return ("Not Implemented");
+            case SC_NOT_MODIFIED:
+                return ("Not Modified");
+            case SC_PARTIAL_CONTENT:
+                return ("Partial Content");
+            case SC_PAYMENT_REQUIRED:
+                return ("Payment Required");
+            case SC_PRECONDITION_FAILED:
+                return ("Precondition Failed");
+            case SC_PROXY_AUTHENTICATION_REQUIRED:
+                return ("Proxy Authentication Required");
+            case SC_REQUEST_ENTITY_TOO_LARGE:
+                return ("Request Entity Too Large");
+            case SC_REQUEST_TIMEOUT:
+                return ("Request Timeout");
+            case SC_REQUEST_URI_TOO_LONG:
+                return ("Request URI Too Long");
+            case SC_REQUESTED_RANGE_NOT_SATISFIABLE:
+                return ("Requested Range Not Satisfiable");
+            case SC_RESET_CONTENT:
+                return ("Reset Content");
+            case SC_SEE_OTHER:
+                return ("See Other");
+            case SC_SERVICE_UNAVAILABLE:
+                return ("Service Unavailable");
+            case SC_SWITCHING_PROTOCOLS:
+                return ("Switching Protocols");
+            case SC_UNAUTHORIZED:
+                return ("Unauthorized");
+            case SC_UNSUPPORTED_MEDIA_TYPE:
+                return ("Unsupported Media Type");
+            case SC_USE_PROXY:
+                return ("Use Proxy");
+            case 207:       // WebDAV
+                return ("Multi-Status");
+            case 422:       // WebDAV
+                return ("Unprocessable Entity");
+            case 423:       // WebDAV
+                return ("Locked");
+            case 507:       // WebDAV
+                return ("Insufficient Storage");
+            default:
+                return ("HTTP Response Status " + status);
         }
 
     }
@@ -419,7 +411,7 @@ public class HttpResponseBase
      * <li>The request we are responding to asked for a valid session
      * <li>The requested session ID was not received via a cookie
      * <li>The specified URL points back to somewhere within the web
-     *     application that is responding to this request
+     * application that is responding to this request
      * </ul>
      *
      * @param location Absolute URL to be validated
@@ -476,7 +468,7 @@ public class HttpResponseBase
             String file = url.getFile();
             if ((file == null) || !file.startsWith(contextPath))
                 return (false);
-            if( file.indexOf(";jsessionid=" + session.getId()) >= 0 )
+            if (file.indexOf(";jsessionid=" + session.getId()) >= 0)
                 return (false);
         }
 
@@ -506,7 +498,7 @@ public class HttpResponseBase
      * @return A string in the form of &quot;HTTP/1.0&quot; ...
      */
     protected String getProtocol() {
-        return(request.getRequest().getProtocol());
+        return (request.getRequest().getProtocol());
     }
 
     /**
@@ -552,19 +544,19 @@ public class HttpResponseBase
         }
         if (getContentLength() >= 0) {
             outputWriter.print("Content-Length: " + getContentLength() +
-                               "\r\n");
+                    "\r\n");
             // System.out.println(" Content-Length: " + getContentLength());
         }
 
         // Send all specified headers (if any)
         synchronized (headers) {
-        Iterator names = headers.keySet().iterator();
-        while (names.hasNext()) {
-            String name = (String) names.next();
-            ArrayList values = (ArrayList) headers.get(name);
-            Iterator items = values.iterator();
-            while (items.hasNext()) {
-                String value = (String) items.next();
+            Iterator names = headers.keySet().iterator();
+            while (names.hasNext()) {
+                String name = (String) names.next();
+                ArrayList values = (ArrayList) headers.get(name);
+                Iterator items = values.iterator();
+                while (items.hasNext()) {
+                    String value = (String) items.next();
                     outputWriter.print(name);
                     outputWriter.print(": ");
                     outputWriter.print(value);
@@ -579,9 +571,9 @@ public class HttpResponseBase
         HttpSession session = hreq.getSession(false);
 
         if ((session != null) && session.isNew() && (getContext() != null)
-            && getContext().getCookies()) {
+                && getContext().getCookies()) {
             Cookie cookie = new Cookie(Globals.SESSION_COOKIE_NAME,
-                                       session.getId());
+                    session.getId());
 
             cookie.setMaxAge(-1);
             String contextPath = null;
@@ -629,9 +621,8 @@ public class HttpResponseBase
      * already absolute, return it unchanged.
      *
      * @param location URL to be (possibly) converted and then returned
-     *
-     * @exception IllegalArgumentException if a MalformedURLException is
-     *  thrown when converting the relative URL to an absolute one
+     * @throws IllegalArgumentException if a MalformedURLException is
+     *                                  thrown when converting the relative URL to an absolute one
      */
     private String toAbsolute(String location) {
 
@@ -645,7 +636,7 @@ public class HttpResponseBase
             url = new URL(location);
         } catch (MalformedURLException e1) {
             HttpServletRequest hreq =
-                (HttpServletRequest) request.getRequest();
+                    (HttpServletRequest) request.getRequest();
             String requrl = HttpUtils.getRequestURL(hreq).toString();
             try {
                 url = new URL(new URL(requrl), location);
@@ -662,7 +653,7 @@ public class HttpResponseBase
      * Return the specified URL with the specified session identifier
      * suitably encoded.
      *
-     * @param url URL to be encoded with the session id
+     * @param url       URL to be encoded with the session id
      * @param sessionId Session id to be included in the encoded URL
      */
     private String toEncoded(String url, String sessionId) {
@@ -684,7 +675,7 @@ public class HttpResponseBase
             path = path.substring(0, pound);
         }
         StringBuffer sb = new StringBuffer(path);
-        if( sb.length() > 0 ) { // jsessionid can't be first.
+        if (sb.length() > 0) { // jsessionid can't be first.
             sb.append(";jsessionid=");
             sb.append(sessionId);
         }
@@ -702,16 +693,16 @@ public class HttpResponseBase
      * Flush the buffer and commit this response.  If this is the first output,
      * send the HTTP headers prior to the user data.
      *
-     * @exception IOException if an input/output error occurs
+     * @throws IOException if an input/output error occurs
      */
     public void flushBuffer() throws IOException {
 
-        if( System.getSecurityManager() != null ) {
+        if (System.getSecurityManager() != null) {
             try {
                 PrivilegedFlushBuffer dp = new PrivilegedFlushBuffer();
                 AccessController.doPrivileged(dp);
-            } catch( PrivilegedActionException pe) {
-                throw (IOException)pe.getException();
+            } catch (PrivilegedActionException pe) {
+                throw (IOException) pe.getException();
             }
         } else {
             doFlushBuffer();
@@ -733,8 +724,8 @@ public class HttpResponseBase
      * Clear any content written to the buffer.  In addition, all cookies
      * and headers are cleared, and the status is reset.
      *
-     * @exception IllegalStateException if this response has already
-     *  been committed
+     * @throws IllegalStateException if this response has already
+     *                               been committed
      */
     public void reset() {
 
@@ -766,7 +757,6 @@ public class HttpResponseBase
         super.setContentLength(length);
 
     }
-
 
 
     /**
@@ -843,7 +833,7 @@ public class HttpResponseBase
     /**
      * Add the specified date header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Date value to be set
      */
     public void addDateHeader(String name, long value) {
@@ -862,7 +852,7 @@ public class HttpResponseBase
     /**
      * Add the specified header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Value to be set
      */
     public void addHeader(String name, String value) {
@@ -888,7 +878,7 @@ public class HttpResponseBase
     /**
      * Add the specified integer header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Integer value to be set
      */
     public void addIntHeader(String name, int value) {
@@ -928,7 +918,7 @@ public class HttpResponseBase
 
         if (isEncodeable(toAbsolute(url))) {
             HttpServletRequest hreq =
-              (HttpServletRequest) request.getRequest();
+                    (HttpServletRequest) request.getRequest();
             return (toEncoded(url, hreq.getSession().getId()));
         } else
             return (url);
@@ -941,9 +931,8 @@ public class HttpResponseBase
      * into the specified redirect URL, if necessary.
      *
      * @param url URL to be encoded
-     *
      * @deprecated As of Version 2.1 of the Java Servlet API, use
-     *  <code>encodeRedirectURL()</code> instead.
+     * <code>encodeRedirectURL()</code> instead.
      */
     public String encodeRedirectUrl(String url) {
 
@@ -961,7 +950,7 @@ public class HttpResponseBase
     public String encodeURL(String url) {
         if (isEncodeable(toAbsolute(url))) {
             HttpServletRequest hreq =
-              (HttpServletRequest) request.getRequest();
+                    (HttpServletRequest) request.getRequest();
             return (toEncoded(url, hreq.getSession().getId()));
         } else
             return (url);
@@ -974,9 +963,8 @@ public class HttpResponseBase
      * into the specified URL, if necessary.
      *
      * @param url URL to be encoded
-     *
      * @deprecated As of Version 2.1 of the Java Servlet API, use
-     *  <code>encodeURL()</code> instead.
+     * <code>encodeURL()</code> instead.
      */
     public String encodeUrl(String url) {
 
@@ -988,10 +976,10 @@ public class HttpResponseBase
     /**
      * Send an acknowledgment of a request.
      *
-     * @exception IOException if an input/output error occurs
+     * @throws IOException if an input/output error occurs
      */
     public void sendAcknowledgement()
-        throws IOException {
+            throws IOException {
     }
 
 
@@ -1000,10 +988,9 @@ public class HttpResponseBase
      * default message.
      *
      * @param status HTTP status code to send
-     *
-     * @exception IllegalStateException if this response has
-     *  already been committed
-     * @exception IOException if an input/output error occurs
+     * @throws IllegalStateException if this response has
+     *                               already been committed
+     * @throws IOException           if an input/output error occurs
      */
     public void sendError(int status) throws IOException {
 
@@ -1015,18 +1002,17 @@ public class HttpResponseBase
     /**
      * Send an error response with the specified status and message.
      *
-     * @param status HTTP status code to send
+     * @param status  HTTP status code to send
      * @param message Corresponding message to send
-     *
-     * @exception IllegalStateException if this response has
-     *  already been committed
-     * @exception IOException if an input/output error occurs
+     * @throws IllegalStateException if this response has
+     *                               already been committed
+     * @throws IOException           if an input/output error occurs
      */
     public void sendError(int status, String message) throws IOException {
 
         if (isCommitted())
             throw new IllegalStateException
-                (sm.getString("httpResponseBase.sendError.ise"));
+                    (sm.getString("httpResponseBase.sendError.ise"));
 
         if (included)
             return;     // Ignore any call from an included servlet
@@ -1050,16 +1036,15 @@ public class HttpResponseBase
      * Send a temporary redirect to the specified redirect location URL.
      *
      * @param location Location URL to redirect to
-     *
-     * @exception IllegalStateException if this response has
-     *  already been committed
-     * @exception IOException if an input/output error occurs
+     * @throws IllegalStateException if this response has
+     *                               already been committed
+     * @throws IOException           if an input/output error occurs
      */
     public void sendRedirect(String location) throws IOException {
 
         if (isCommitted())
             throw new IllegalStateException
-                (sm.getString("httpResponseBase.sendRedirect.ise"));
+                    (sm.getString("httpResponseBase.sendRedirect.ise"));
 
         if (included)
             return;     // Ignore any call from an included servlet
@@ -1085,7 +1070,7 @@ public class HttpResponseBase
     /**
      * Set the specified date header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Date value to be set
      */
     public void setDateHeader(String name, long value) {
@@ -1104,7 +1089,7 @@ public class HttpResponseBase
     /**
      * Set the specified header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Value to be set
      */
     public void setHeader(String name, String value) {
@@ -1141,7 +1126,7 @@ public class HttpResponseBase
     /**
      * Set the specified integer header to the specified value.
      *
-     * @param name Name of the header to set
+     * @param name  Name of the header to set
      * @param value Integer value to be set
      */
     public void setIntHeader(String name, int value) {
@@ -1172,12 +1157,11 @@ public class HttpResponseBase
     /**
      * Set the HTTP status and message to be returned with this response.
      *
-     * @param status The new HTTP status
+     * @param status  The new HTTP status
      * @param message The associated text message
-     *
      * @deprecated As of Version 2.1 of the Java Servlet API, this method
-     *  has been deprecated due to the ambiguous meaning of the message
-     *  parameter.
+     * has been deprecated due to the ambiguous meaning of the message
+     * parameter.
      */
     public void setStatus(int status, String message) {
 
@@ -1354,16 +1338,8 @@ public class HttpResponseBase
         super.setBufferSize(size);
     }
 
-    @Override
-    public Collection<String> getHeaders(String name) {
-        return null;
-    }
-
-    @Override
-    public void setCharacterEncoding(String charset) {
-
-    }
-
 
 }
+
+
 

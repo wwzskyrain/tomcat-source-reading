@@ -159,7 +159,7 @@ public final class LifecycleSupport {
 
         LifecycleEvent event = new LifecycleEvent(lifecycle, type, data);
         LifecycleListener interested[] = null;
-        synchronized (listeners) {
+        synchronized (listeners) {  //为什么 要"同步"呢？还clone一下
             // 这个数组的clone方法就是Object的方法呗。
             interested = (LifecycleListener[]) listeners.clone();
         }

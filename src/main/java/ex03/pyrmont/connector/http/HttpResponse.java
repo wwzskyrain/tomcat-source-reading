@@ -564,28 +564,4 @@ public class HttpResponse implements HttpServletResponse {
     public void setStatus(int sc, String message) {
     }
 
-    @Override
-    public int getStatus() {
-        return 0;
-    }
-
-    @Override
-    public String getHeader(String name) {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getHeaders(String name) {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getHeaderNames() {
-        return null;
-    }
-
-    @Override
-    public void setCharacterEncoding(String charset) {
-
-    }
 }

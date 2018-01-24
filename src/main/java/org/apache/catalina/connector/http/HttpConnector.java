@@ -940,8 +940,8 @@ public final class HttpConnector
                 //                if (debug >= 3)
                 //                    log("run: Returned from serverSocket.accept()");
                 if (connectionTimeout > 0)
-                    socket.setSoTimeout(connectionTimeout);
-                socket.setTcpNoDelay(tcpNoDelay);
+                    socket.setSoTimeout(connectionTimeout); //
+                socket.setTcpNoDelay(tcpNoDelay);           //
             } catch (AccessControlException ace) {
                 log("socket accept security exception", ace);
                 continue;
@@ -992,7 +992,7 @@ public final class HttpConnector
             if (processor == null) {
                 try {
                     log(sm.getString("httpConnector.noProcessor"));
-                    socket.close();
+                    socket.close(); //如果没有Processor可用，就关闭socket.
                 } catch (IOException e) {
                     ;
                 }
@@ -1139,7 +1139,7 @@ public final class HttpConnector
             throw new LifecycleException
                 (sm.getString("httpConnector.alreadyStarted"));
         threadName = "HttpConnector[" + port + "]";
-        lifecycle.fireLifecycleEvent(START_EVENT, null);
+        lifecycle.fireLifecycleEvent(START_EVENT, null);    //事件会被同步处理吗？应该不会，事件一般都是异步概念
         started = true;
 
         // Start our background thread

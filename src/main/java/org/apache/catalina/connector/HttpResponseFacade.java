@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
 import java.util.Locale;
 
 
@@ -284,39 +283,5 @@ public final class HttpResponseFacade
     public Locale getLocale() {
         return super.getLocale();
     }
-
-    //    ServletResponse接口方法默认实现
-    @Override
-    public String getContentType() {
-        return null;
-    }
-
-    @Override
-    public void setCharacterEncoding(String charset) {
-
-    }
-
-    //  HttpServletResponse默认实现
-
-    @Override
-    public int getStatus() {
-        return 0;
-    }
-
-    @Override
-    public String getHeader(String name) {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getHeaders(String name) {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getHeaderNames() {
-        return null;
-    }
-
 
 }

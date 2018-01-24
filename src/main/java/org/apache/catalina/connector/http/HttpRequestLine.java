@@ -4,7 +4,7 @@ package org.apache.catalina.connector.http;
 
 /**
  * HTTP request line enum type.
- *
+ * 请求行最重要的三元素：方法、请求uri、协议
  * @author Remy Maucherat
  * @version $Revision: 1.6 $ $Date: 2002/03/18 07:15:40 $
  * @deprecated

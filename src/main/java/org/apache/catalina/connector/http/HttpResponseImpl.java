@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Locale;
 
 
@@ -574,15 +573,5 @@ final class HttpResponseImpl
     @Override
     public void setBufferSize(int size) {
         super.setBufferSize(size);
-    }
-
-    @Override
-    public Collection<String> getHeaders(String name) {
-        return super.getHeaders(name);
-    }
-
-    @Override
-    public void setCharacterEncoding(String charset) {
-        super.setCharacterEncoding(charset);
     }
 }
