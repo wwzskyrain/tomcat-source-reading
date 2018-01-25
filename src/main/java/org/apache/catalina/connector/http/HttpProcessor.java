@@ -208,7 +208,7 @@ final class HttpProcessor
 
 
     /**
-     * True if the client has asked to recieve a request acknoledgement. If so
+     * True if the client has asked to receive a request acknowledgement. If so
      * the server will send a preliminary 100 Continue response just after it
      * has successfully parsed the request headers, and before starting
      * reading the request entity body.
@@ -585,12 +585,11 @@ final class HttpProcessor
                     else
                         request.setServerName(value.substring(0, n).trim());
                     if (proxyPort != 0)
-                        request.setServerPort(proxyPort);
+                        request.setServerPort(proxyPort);   //服务器端的代理？
                     else {
                         int port = 80;
                         try {
-                            port =
-                                    Integer.parseInt(value.substring(n + 1).trim());
+                            port = Integer.parseInt(value.substring(n + 1).trim());
                         } catch (Exception e) {
                             throw new ServletException
                                     (sm.getString
@@ -744,9 +743,9 @@ final class HttpProcessor
         ((HttpRequest) request).setMethod(method);
         request.setProtocol(protocol);
         if (normalizedUri != null) {
-            ((HttpRequest) request).setRequestURI(normalizedUri);
+            request.setRequestURI(normalizedUri);
         } else {
-            ((HttpRequest) request).setRequestURI(uri);
+            request.setRequestURI(uri);
         }
         request.setSecure(connector.getSecure());
         request.setScheme(connector.getScheme());
@@ -958,14 +957,15 @@ final class HttpProcessor
 
             // Ask our Container to process this request
             try {
-                ((HttpServletResponse) response).setHeader
-                        ("Date", FastHttpDateFormat.getCurrentDate());
+                response.setHeader("Date", FastHttpDateFormat.getCurrentDate());
                 if (ok) {
+                    // 调用container的invoke方法。
                     connector.getContainer().invoke(request, response);
                 }
             } catch (ServletException e) {
                 log("process.invoke", e);
                 try {
+//                  原来500就是在这里设置的哈。
                     ((HttpServletResponse) response.getResponse()).sendError
                             (HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 } catch (Exception f) {
@@ -974,7 +974,7 @@ final class HttpProcessor
                 ok = false;
             } catch (InterruptedIOException e) {
                 ok = false;
-            } catch (Throwable e) {
+            } catch (Throwable e) { //这个地方是总异常+总错误的处理。
                 log("process.invoke", e);
                 try {
                     ((HttpServletResponse) response.getResponse()).sendError
@@ -988,7 +988,7 @@ final class HttpProcessor
             // Finish up the handling of the request
             if (finishResponse) {
                 try {
-                    response.finishResponse();
+                    response.finishResponse();  //关闭输出流或writer
                 } catch (IOException e) {
                     ok = false;
                 } catch (Throwable e) {
@@ -996,7 +996,7 @@ final class HttpProcessor
                     ok = false;
                 }
                 try {
-                    request.finishRequest();
+                    request.finishRequest();    //关闭输入流或reader
                 } catch (IOException e) {
                     ok = false;
                 } catch (Throwable e) {
@@ -1029,7 +1029,7 @@ final class HttpProcessor
 
         try {
             shutdownInput(input);
-            socket.close();
+            socket.close(); //关闭套接字
         } catch (IOException e) {
             ;
         } catch (Throwable e) {
