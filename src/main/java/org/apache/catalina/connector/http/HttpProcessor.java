@@ -960,6 +960,7 @@ final class HttpProcessor
                 response.setHeader("Date", FastHttpDateFormat.getCurrentDate());
                 if (ok) {
                     // 调用container的invoke方法。
+//                  container.invoke必须是可充入的。
                     connector.getContainer().invoke(request, response);
                 }
             } catch (ServletException e) {
