@@ -428,7 +428,6 @@ public final class StandardWrapper
      * Set the maximum number of instances that will be allocated when a single
      * thread model servlet is used.
      *
-     * @param maxInstnces New value of maxInstances
      */
     public void setMaxInstances(int maxInstances) {
 
@@ -469,7 +468,6 @@ public final class StandardWrapper
     /**
      * Set the run-as identity for this servlet.
      *
-     * @param value New run-as identity value
      */
     public void setRunAs(String runAs) {
 
@@ -1239,6 +1237,7 @@ System.out.println("after calling setWrapper");
      * container provided servlet class that should be loaded by the
      * server class loader.
      *
+     * @param name Name of the class to be checked
      */
     private boolean isContainerProvidedServlet(String classname) {
 

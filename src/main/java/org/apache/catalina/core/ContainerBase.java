@@ -65,13 +65,6 @@
 package org.apache.catalina.core;
 
 
-import org.apache.catalina.*;
-import org.apache.catalina.util.LifecycleSupport;
-import org.apache.catalina.util.StringManager;
-import org.apache.naming.resources.ProxyDirContext;
-
-import javax.naming.directory.DirContext;
-import javax.servlet.ServletException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -81,6 +74,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import javax.servlet.ServletException;
+import javax.naming.directory.DirContext;
+import org.apache.naming.resources.ProxyDirContext;
+import org.apache.catalina.Cluster;
+import org.apache.catalina.Container;
+import org.apache.catalina.ContainerEvent;
+import org.apache.catalina.ContainerListener;
+import org.apache.catalina.Lifecycle;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.LifecycleListener;
+import org.apache.catalina.Loader;
+import org.apache.catalina.Logger;
+import org.apache.catalina.Manager;
+import org.apache.catalina.Mapper;
+import org.apache.catalina.Pipeline;
+import org.apache.catalina.Realm;
+import org.apache.catalina.Request;
+import org.apache.catalina.Response;
+import org.apache.catalina.Valve;
+import org.apache.catalina.util.LifecycleSupport;
+import org.apache.catalina.util.StringManager;
 
 
 /**
@@ -520,6 +534,7 @@ public abstract class ContainerBase
     /**
      * Set the Cluster with which this Container is associated.
      *
+     * @param manager The newly associated Cluster
      */
     public synchronized void setCluster(Cluster cluster) {
         // Change components if necessary
