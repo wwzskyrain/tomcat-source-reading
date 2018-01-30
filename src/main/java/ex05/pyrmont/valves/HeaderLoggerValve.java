@@ -16,6 +16,7 @@ public class HeaderLoggerValve implements Valve, Contained {
     public void invoke(Request request, Response response, ValveContext valveContext)
             throws IOException, ServletException {
 
+        System.out.println("HeaderLogger invoke start...");
         // Pass this request on to the next valve in our pipeline
         valveContext.invokeNext(request, response);
 
@@ -34,6 +35,8 @@ public class HeaderLoggerValve implements Valve, Contained {
             System.out.println("Not an HTTP Request");
 
         System.out.println("------------------------------------");
+
+        System.out.println("HeaderLogger invoke end...");
     }
 
     public String getInfo() {

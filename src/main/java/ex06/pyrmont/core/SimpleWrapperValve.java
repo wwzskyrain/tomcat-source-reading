@@ -1,4 +1,4 @@
-package ex05.pyrmont.core;
+package ex06.pyrmont.core;
 
 import org.apache.catalina.*;
 
@@ -11,18 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-/**
- * 这个类将被用作SimpleWrapper的基础Valve.
- * 主要工作就是调用"相应的servlet的service方法.
- */
 public class SimpleWrapperValve implements Valve, Contained {
 
     protected Container container;
 
     public void invoke(Request request, Response response, ValveContext valveContext)
             throws IOException, ServletException {
-
-        System.out.println("SimpleWrapperValve invoke start...");
 
         SimpleWrapper wrapper = (SimpleWrapper) getContainer();
         ServletRequest sreq = request.getRequest();
@@ -35,8 +29,6 @@ public class SimpleWrapperValve implements Valve, Contained {
         if (sres instanceof HttpServletResponse)
             hres = (HttpServletResponse) sres;
 
-        System.out.println("SimpleWrapperValve,should be call last but execute firstly");
-
         // Allocate a servlet instance to process this request
         try {
             servlet = wrapper.allocate();
@@ -47,9 +39,6 @@ public class SimpleWrapperValve implements Valve, Contained {
             }
         } catch (ServletException e) {
         }
-
-        System.out.println("SimpleWrapperValve invoke end...");
-
     }
 
     public String getInfo() {

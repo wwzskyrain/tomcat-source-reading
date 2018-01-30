@@ -14,12 +14,15 @@ public class ClientIPLoggerValve implements Valve, Contained {
     public void invoke(Request request, Response response, ValveContext valveContext)
             throws IOException, ServletException {
 
+        System.out.println("ClientIPLoggerValve invoke start...");
+
         // Pass this request on to the next valve in our pipeline
         valveContext.invokeNext(request, response);
         System.out.println("Client IP Logger Valve");
         ServletRequest sreq = request.getRequest();
         System.out.println(sreq.getRemoteAddr());
         System.out.println("------------------------------------");
+        System.out.println("ClientIPLoggerValve invoke end...");
     }
 
     public String getInfo() {
