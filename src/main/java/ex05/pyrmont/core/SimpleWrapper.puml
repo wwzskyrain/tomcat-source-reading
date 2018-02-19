@@ -1,5 +1,0 @@
-@startuml
-
-Connector -> SimpleWrapper
-
-@enduml

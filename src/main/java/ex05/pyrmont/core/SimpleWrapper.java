@@ -28,7 +28,11 @@ public class SimpleWrapper implements Wrapper, Pipeline {
         pipeline.addValve(valve);
     }
 
-    //    谁来调这个接口？
+    /**
+     * 谁来调这个接口？-基础阀将调用这个方法。
+     * @return
+     * @throws ServletException
+     */
     public Servlet allocate() throws ServletException {
         // Load and initialize our instance if necessary
         if (instance == null) {

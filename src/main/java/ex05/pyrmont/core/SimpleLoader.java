@@ -12,7 +12,7 @@ import java.net.URLClassLoader;
 import java.net.URLStreamHandler;
 
 /**
- * 具体的Loader才只去哪里寻找servlet类去加载。
+ * 具体的Loader知道去哪里寻找servlet类文件去加载。
  */
 public class SimpleLoader implements Loader {
 
