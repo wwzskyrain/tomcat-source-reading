@@ -127,7 +127,7 @@ public final class FastEngineMapper
 
 
     /**
-     * The lifecycle event support for this component.
+     * The lifecycleSupport event support for this component.
      */
     private LifecycleSupport lifecycle = new LifecycleSupport(this);
 
@@ -282,7 +282,7 @@ public final class FastEngineMapper
 
 
     /**
-     * Add a lifecycle event listener to this component.
+     * Add a lifecycleSupport event listener to this component.
      *
      * @param listener The listener to add
      */
@@ -294,7 +294,7 @@ public final class FastEngineMapper
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this 
+     * Get the lifecycleSupport listeners associated with this lifecycleSupport. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {
@@ -305,7 +305,7 @@ public final class FastEngineMapper
 
 
     /**
-     * Remove a lifecycle event listener from this component.
+     * Remove a lifecycleSupport event listener from this component.
      *
      * @param listener The listener to remove
      */

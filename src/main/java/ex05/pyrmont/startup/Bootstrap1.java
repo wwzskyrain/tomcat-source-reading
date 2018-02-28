@@ -18,10 +18,12 @@ public final class Bootstrap1 {
 
         HttpConnector connector = new HttpConnector();
         Wrapper wrapper = new SimpleWrapper();
+
         wrapper.setServletClass("ModernServlet");
 
-        wrapper.setServletClass("PrimitiveServlet");
-        Loader loader = new SimpleLoader();
+//        wrapper.setServletClass("PrimitiveServlet");    //覆盖掉ModernServlet
+
+        Loader loader = new SimpleLoader(); //SimpleLoader只会加载SimpleWrapper中被设置的ServletClass.
         Valve valve1 = new HeaderLoggerValve();
         Valve valve2 = new ClientIPLoggerValve();
 

@@ -261,7 +261,7 @@ public final class StandardServer
 
 
     /**
-     * The lifecycle event support for this component.
+     * The lifecycleSupport event support for this component.
      */
     private LifecycleSupport lifecycle = new LifecycleSupport(this);
 
@@ -2136,7 +2136,7 @@ public final class StandardServer
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this
+     * Get the lifecycleSupport listeners associated with this lifecycleSupport. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {

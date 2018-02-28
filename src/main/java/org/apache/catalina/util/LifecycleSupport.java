@@ -103,7 +103,7 @@ public final class LifecycleSupport {
 
 
     /**
-     * The source component for lifecycle events that we will fire.
+     * The source component for lifecycleSupport events that we will fire.
      */
     private Lifecycle lifecycle = null;
 
@@ -118,7 +118,7 @@ public final class LifecycleSupport {
 
 
     /**
-     * Add a lifecycle event listener to this component.
+     * Add a lifecycleSupport event listener to this component.
      *
      * @param listener The listener to add
      */
@@ -137,7 +137,7 @@ public final class LifecycleSupport {
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this 
+     * Get the lifecycleSupport listeners associated with this lifecycleSupport. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {
@@ -148,7 +148,7 @@ public final class LifecycleSupport {
 
 
     /**
-     * Notify all lifecycle event listeners that a particular event has
+     * Notify all lifecycleSupport event listeners that a particular event has
      * occurred for this Container.  The default implementation performs
      * this notification synchronously using the calling thread.
      *
@@ -170,7 +170,7 @@ public final class LifecycleSupport {
 
 
     /**
-     * Remove a lifecycle event listener from this component.
+     * Remove a lifecycleSupport event listener from this component.
      *
      * @param listener The listener to remove
      */

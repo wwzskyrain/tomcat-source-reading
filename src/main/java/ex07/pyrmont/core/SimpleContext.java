@@ -1,5 +1,8 @@
-package ex06.pyrmont.core;
 
+// difference from ex06.pyrmont.core.SimpleContext is that
+// this one defines the private method log, which is called
+// from different places.
+package ex07.pyrmont.core;
 
 import org.apache.catalina.*;
 import org.apache.catalina.deploy.*;
@@ -21,7 +24,8 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     protected HashMap children = new HashMap();
     private Loader loader = null;
-    protected LifecycleSupport lifecycleSupport = new LifecycleSupport(this);
+    private Logger logger = null;
+    protected LifecycleSupport lifecycle = new LifecycleSupport(this);
     private SimplePipeline pipeline = new SimplePipeline(this);
     private HashMap servletMappings = new HashMap();
     protected Mapper mapper = null;
@@ -478,10 +482,20 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
     }
 
     public Logger getLogger() {
-        return null;
+        return logger;
     }
 
     public void setLogger(Logger logger) {
+        this.logger = logger;
+//        if (logger != null && logger instanceof FileLogger && logger instanceof Lifecycle) {
+//            try {
+//                ((Lifecycle) logger).start();
+//            } catch (LifecycleException e) {
+//                e.printStackTrace();
+//            }
+//        }else {
+//            System.out.println("logger is null or not FileLogger or not Lifecycle");
+//        }
     }
 
     public Manager getManager() {
@@ -648,7 +662,7 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
 
     // implementation of the Lifecycle interface's methods
     public void addLifecycleListener(LifecycleListener listener) {
-        lifecycleSupport.addLifecycleListener(listener);
+        lifecycle.addLifecycleListener(listener);
     }
 
     public LifecycleListener[] findLifecycleListeners() {
@@ -656,15 +670,16 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
     }
 
     public void removeLifecycleListener(LifecycleListener listener) {
-        lifecycleSupport.removeLifecycleListener(listener);
+        lifecycle.removeLifecycleListener(listener);
     }
 
     public synchronized void start() throws LifecycleException {
+        log("starting Context");
         if (started)
             throw new LifecycleException("SimpleContext has already started");
 
         // Notify our interested LifecycleListeners
-        lifecycleSupport.fireLifecycleEvent(BEFORE_START_EVENT, null);
+        lifecycle.fireLifecycleEvent(BEFORE_START_EVENT, null);
         started = true;
         try {
             // Start our subordinate components, if any
@@ -683,21 +698,23 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
             if (pipeline instanceof Lifecycle)
                 ((Lifecycle) pipeline).start();
             // Notify our interested LifecycleListeners
-            lifecycleSupport.fireLifecycleEvent(START_EVENT, null);
+            lifecycle.fireLifecycleEvent(START_EVENT, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Notify our interested LifecycleListeners
-        lifecycleSupport.fireLifecycleEvent(AFTER_START_EVENT, null);
+        lifecycle.fireLifecycleEvent(AFTER_START_EVENT, null);
+        log("Context started");
     }
 
     public void stop() throws LifecycleException {
+        log("stopping Context");
         if (!started)
             throw new LifecycleException("SimpleContext has not been started");
         // Notify our interested LifecycleListeners
-        lifecycleSupport.fireLifecycleEvent(BEFORE_STOP_EVENT, null);
-        lifecycleSupport.fireLifecycleEvent(STOP_EVENT, null);
+        lifecycle.fireLifecycleEvent(BEFORE_STOP_EVENT, null);
+        lifecycle.fireLifecycleEvent(STOP_EVENT, null);
         started = false;
         try {
             // Stop the Valves in our pipeline (including the basic), if any
@@ -718,7 +735,13 @@ public class SimpleContext implements Context, Pipeline, Lifecycle {
             e.printStackTrace();
         }
         // Notify our interested LifecycleListeners
-        lifecycleSupport.fireLifecycleEvent(AFTER_STOP_EVENT, null);
+        lifecycle.fireLifecycleEvent(AFTER_STOP_EVENT, null);
+        log("Context stopped");
     }
 
+    private void log(String message) {
+        Logger logger = this.getLogger();
+        if (logger != null)
+            logger.log(message);
+    }
 }

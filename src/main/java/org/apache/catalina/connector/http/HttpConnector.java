@@ -104,7 +104,7 @@ public final class HttpConnector
 
 
     /**
-     * The lifecycle event support for this component.
+     * The lifecycleSupport event support for this component.
      */
     protected LifecycleSupport lifecycle = new LifecycleSupport(this);
 
@@ -807,7 +807,7 @@ public final class HttpConnector
      * @param message Message to be logged
      */
     private void log(String message) {
-        Logger logger = container.getLogger();
+        Logger logger = container.getLogger();  //Connector使用了Container的Logger。
         String localName = threadName;
         if (localName == null)
             localName = "HttpConnector";
@@ -1052,7 +1052,7 @@ public final class HttpConnector
 
 
     /**
-     * Add a lifecycle event listener to this component.
+     * Add a lifecycleSupport event listener to this component.
      *
      * @param listener The listener to add
      */
@@ -1064,7 +1064,7 @@ public final class HttpConnector
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this
+     * Get the lifecycleSupport listeners associated with this lifecycleSupport. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {
@@ -1075,7 +1075,7 @@ public final class HttpConnector
 
 
     /**
-     * Remove a lifecycle event listener from this component.
+     * Remove a lifecycleSupport event listener from this component.
      *
      * @param listener The listener to add
      */

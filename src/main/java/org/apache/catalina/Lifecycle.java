@@ -122,6 +122,7 @@ public interface Lifecycle {
 
     /**
      * Add a LifecycleEvent listener to this component.
+     * <br>将委托给LifecycleSupport。
      *
      * @param listener The listener to add
      */
@@ -129,7 +130,7 @@ public interface Lifecycle {
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this 
+     * Get the lifecycleSupport listeners associated with this lifecycleSupport. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners();

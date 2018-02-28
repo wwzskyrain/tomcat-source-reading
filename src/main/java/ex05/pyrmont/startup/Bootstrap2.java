@@ -18,7 +18,9 @@ public final class Bootstrap2 {
     public static void main(String[] args) {
         HttpConnector connector = new HttpConnector();
         Wrapper wrapper1 = new SimpleWrapper();
-        wrapper1.setName("Primitive");
+
+//        请仔细注意"uri"-"子容器"-"wrapper的名字"-"servletClass"的名字。
+        wrapper1.setName("Primitive");  //wrapper的名字就是servlet的名字。
         wrapper1.setServletClass("PrimitiveServlet");
         Wrapper wrapper2 = new SimpleWrapper();
         wrapper2.setName("Modern");
@@ -45,7 +47,7 @@ public final class Bootstrap2 {
         Loader loader = new SimpleLoader();
         context.setLoader(loader);
         // context.addServletMapping(pattern, name);
-        context.addServletMapping("/Primitive", "Primitive");
+        context.addServletMapping("/Primitive", "Primitive");   //将URI对应到"servlet的名字"
         context.addServletMapping("/Modern", "Modern");
         connector.setContainer(context);
         try {
