@@ -957,7 +957,7 @@ public class WebappLoader
             (File) servletContext.getAttribute(Globals.WORK_DIR_ATTR);
         if (workDir == null)
             return;
-        log(sm.getString("webappLoader.deploy", workDir.getAbsolutePath()));
+        log(sm.getString("webappLoader.deploy:", workDir.getAbsolutePath()));
 
         DirContext resources = container.getResources();
 

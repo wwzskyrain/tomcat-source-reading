@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-tomcat-4.0/catalina/src/share/org/apache/catalina/cluster/ClusterSender.java,v 1.2 2001/07/22 20:25:06 pier Exp $
- * $Revision: 1.2 $
- * $Date: 2001/07/22 20:25:06 $
+ * $Header: /home/cvs/jakarta-tomcat-4.0/catalina/src/share/org/apache/catalina/authenticator/NonLoginAuthenticator.java,v 1.3 2001/07/22 20:09:19 pier Exp $
+ * $Revision: 1.3 $
+ * $Date: 2001/07/22 20:09:19 $
  *
  * ====================================================================
  *
@@ -61,95 +61,79 @@
  *
  */
 
-package org.apache.catalina.cluster;
 
-import org.apache.catalina.Logger;
+package org.apache.catalina.authenticator;
+
+
+import java.io.IOException;
+import org.apache.catalina.HttpRequest;
+import org.apache.catalina.HttpResponse;
+import org.apache.catalina.deploy.LoginConfig;
+
+
 
 /**
- * This class is responsible for sending outgoing packets to a Cluster.
- * Different Implementations may use different protocol to
- * communicate within the Cluster.
+ * An <b>Authenticator</b> and <b>Valve</b> implementation that checks
+ * only security constraints not involving user authentication.
  *
- * @author Bip Thelin
- * @version $Revision: 1.2 $, $Date: 2001/07/22 20:25:06 $
+ * @author Craig R. McClanahan
+ * @version $Revision: 1.3 $ $Date: 2001/07/22 20:09:19 $
  */
 
-public interface ClusterSender {
+public final class NonLoginAuthenticator
+    extends AuthenticatorBase {
+
+
+    // ----------------------------------------------------- Instance Variables
+
+
+    /**
+     * Descriptive information about this implementation.
+     */
+    private static final String info =
+        "org.apache.catalina.authenticator.NonLoginAuthenticator/1.0";
+
+
+    // ------------------------------------------------------------- Properties
+
+
+    /**
+     * Return descriptive information about this Valve implementation.
+     */
+    public String getInfo() {
+
+        return (this.info);
+
+    }
+
 
     // --------------------------------------------------------- Public Methods
 
-    /**
-     * The senderId is a identifier used to identify different
-     * packages being sent in a Cluster. Each package sent through
-     * the concrete implementation of this interface will have
-     * the senderId set at runtime. Usually the senderId is the
-     * name of the component that is using this <code>ClusterSender</code>
-     *
-     * @param senderId The senderId to use
-     */
-    public void setSenderId(String senderId);
 
     /**
-     * get the senderId used to identify messages being sent in a Cluster.
+     * Authenticate the user making this request, based on the specified
+     * login configuration.  Return <code>true</code> if any specified
+     * constraint has been satisfied, or <code>false</code> if we have
+     * created a response challenge already.
      *
-     * @return The senderId for this ClusterSender
+     * @param request Request we are processing
+     * @param response Response we are creating
+     * @param login Login configuration describing how authentication
+     *              should be performed
+     *
+     * @exception IOException if an input/output error occurs
      */
-    public String getSenderId();
+    public boolean authenticate(HttpRequest request,
+                                HttpResponse response,
+                                LoginConfig config)
+        throws IOException {
 
-    /**
-     * Set the debug detail level for this component.
-     *
-     * @param debug The debug level
-     */
-    public void setDebug(int debug);
+        if (debug >= 1)
+            log("User authentication is not required");
+        return (true);
 
-    /**
-     * Get the debug level for this component
-     *
-     * @return The debug level
-     */
-    public int getDebug();
 
-    /**
-     * Set the Logger for this component.
-     *
-     * @param logger The Logger to use with this component.
-     */
-    public void setLogger(Logger logger);
+    }
 
-    /**
-     * Get the Logger for this component
-     *
-     * @return The Logger associated with this component.
-     */
-    public Logger getLogger();
 
-    /**
-     * The log method to use in the implementation
-     *
-     * @param message The message to be logged.
-     */
-    public void log(String message);
-
-    /**
-     * Send an array of bytes, the implementation of this
-     * <code>ClusterSender</code> is responsible for modifying
-     * the bytearray to something that it can use. Before anything
-     * is sent it is transformed into a ReplicationWrapper object
-     * and the right senderId is set.
-     *
-     * @param b the bytearray to send
-     */
-    public void send(byte[] b);
-
-    /**
-     * Send an object, the implementation of this
-     * <code>ClusterSender</code> is responsible for modifying
-     * the Object to something that it can use. Before anything
-     * is sent it is transformed into a ReplicationWrapper object
-     * and the right senderId is set.
-     *
-     * @param o The object to send
-     */
-    public void send(Object o);
 }

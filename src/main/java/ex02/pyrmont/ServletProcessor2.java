@@ -41,9 +41,11 @@ public class ServletProcessor2 {
 
         Servlet servlet = null;
         RequestFacade requestFacade = new RequestFacade(request);
+//      外观类
         ResponseFacade responseFacade = new ResponseFacade(response);
         try {
             servlet = (Servlet) myClass.newInstance();
+//          连初始化方法init(config)都不调用啊
             servlet.service((ServletRequest) requestFacade, (ServletResponse) responseFacade);
         } catch (Exception e) {
             System.out.println(e.toString());

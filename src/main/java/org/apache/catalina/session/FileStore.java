@@ -329,7 +329,7 @@ public final class FileStore
                 (StandardSession) manager.createSession();
             session.readObjectData(ois);
             session.setManager(manager);
-            return (session);
+            return (session);   //一个文件，只存储了一个Session吗？良妃
         } finally {
             // Close the input stream
             if (ois != null) {
@@ -464,7 +464,7 @@ public final class FileStore
         if (this.directory == null) {
             return (null);
         }
-        String filename = id + FILE_EXT;
+        String filename = id + FILE_EXT;    //还有后缀名呐，可以可以
         File file = new File(directory(), filename);
         return (file);
 

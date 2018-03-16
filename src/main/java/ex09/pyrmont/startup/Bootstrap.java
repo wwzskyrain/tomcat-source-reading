@@ -1,32 +1,29 @@
-package ex08.pyrmont.startup;
+package ex09.pyrmont.startup;
 
-import ex08.pyrmont.core.SimpleWrapper;
-import ex08.pyrmont.core.SimpleContextConfig;
+import ex09.pyrmont.core.SimpleWrapper;
+import ex09.pyrmont.core.SimpleContextConfig;
 import org.apache.catalina.Connector;
 import org.apache.catalina.Context;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.Loader;
+import org.apache.catalina.Manager;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.connector.http.HttpConnector;
 import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.loader.WebappClassLoader;
 import org.apache.catalina.loader.WebappLoader;
-import org.apache.naming.resources.ProxyDirContext;
+import org.apache.catalina.session.StandardManager;
 
 public final class Bootstrap {
     public static void main(String[] args) {
 
-        //invoke: http://localhost:8080/Modern or  http://localhost:8080/Primitive
+        //invoke: http://localhost:8080/myApp/Session
 
         System.setProperty("catalina.base", System.getProperty("user.dir"));
         Connector connector = new HttpConnector();
         Wrapper wrapper1 = new SimpleWrapper();
-        wrapper1.setName("Primitive");
-        wrapper1.setServletClass("PrimitiveServlet");
-        Wrapper wrapper2 = new SimpleWrapper();
-        wrapper2.setName("Modern");
-        wrapper2.setServletClass("ModernServlet");
+        wrapper1.setName("Session");
+        wrapper1.setServletClass("SessionServlet");
 
         Context context = new StandardContext();
         // StandardContext's start method adds a default mapper
@@ -34,11 +31,12 @@ public final class Bootstrap {
         context.setDocBase("myApp");
 
         context.addChild(wrapper1);
-        context.addChild(wrapper2);
 
         // context.addServletMapping(pattern, name);
-        context.addServletMapping("/Primitive", "Primitive");
-        context.addServletMapping("/Modern", "Modern");
+        // note that we must use /myApp/Session, not just /Session
+        // because the /myApp section must be the same as the path, so the cookie will
+        // be sent back.
+        context.addServletMapping("/myApp/Session", "Session");
         // add ContextConfig. This listener is important because it configures
         // StandardContext (sets configured to true), otherwise StandardContext
         // won't start
@@ -52,17 +50,17 @@ public final class Bootstrap {
 
         connector.setContainer(context);
 
+        // add a Manager
+        Manager manager = new StandardManager();
+        context.setManager(manager);
+
+        System.out.println("catalina.home:"+System.getProperty("catalina.home"));
+
         try {
             connector.initialize();
             ((Lifecycle) connector).start();
+
             ((Lifecycle) context).start();
-            // now we want to know some details about WebappLoader
-            WebappClassLoader classLoader = (WebappClassLoader) loader.getClassLoader();
-            System.out.println("Resources' docBase: " + ((ProxyDirContext) classLoader.getResources()).getDocBase());
-            String[] repositories = classLoader.findRepositories();
-            for (int i = 0; i < repositories.length; i++) {
-                System.out.printf("  repository %d : %s\n", i, repositories[i]);
-            }
 
             // make the application wait until we press a key.
             System.in.read();

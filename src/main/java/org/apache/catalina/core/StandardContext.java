@@ -1081,7 +1081,7 @@ public class StandardContext
      * and system.err will be redirected to the logger during a servlet
      * execution.
      *
-     * @param swallowOuptut The new value
+     * @param swallowOutput The new value
      */
     public void setSwallowOutput(boolean swallowOutput) {
 
@@ -3473,7 +3473,7 @@ public class StandardContext
                 lifecycle.fireLifecycleEvent(START_EVENT, null);
 
                 if ((manager != null) && (manager instanceof Lifecycle))
-                    ((Lifecycle) manager).start();
+                    ((Lifecycle) manager).start();  //start session管理器.
 
             } finally {
                 // Unbinding thread
