@@ -65,16 +65,17 @@
 package org.apache.catalina.core;
 
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Map;
+import org.apache.catalina.Context;
+import org.apache.catalina.deploy.FilterDef;
+import org.apache.catalina.util.Enumerator;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import org.apache.catalina.Context;
-import org.apache.catalina.deploy.FilterDef;
-import org.apache.catalina.util.Enumerator;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Map;
 
 
 /**
@@ -240,7 +241,7 @@ final class ApplicationFilterConfig implements FilterConfig {
         String filterClass = filterDef.getFilterClass();
         ClassLoader classLoader = null;
         if (filterClass.startsWith("org.apache.catalina."))
-            classLoader = this.getClass().getClassLoader();
+            classLoader = this.getClass().getClassLoader(); //这两个classLoader有什么不同？
         else
             classLoader = context.getLoader().getClassLoader();
 

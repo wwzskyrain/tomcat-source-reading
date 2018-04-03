@@ -65,16 +65,11 @@
 package org.apache.catalina.core;
 
 
+import org.apache.catalina.*;
+import org.apache.catalina.valves.ErrorDispatcherValve;
+
 import java.io.IOException;
 import java.net.URL;
-import org.apache.catalina.Container;
-import org.apache.catalina.Context;
-import org.apache.catalina.DefaultContext;
-import org.apache.catalina.Deployer;
-import org.apache.catalina.Host;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.Valve;
-import org.apache.catalina.valves.ErrorDispatcherValve;
 
 
 /**
@@ -613,7 +608,7 @@ public class StandardHost
         Context context = null;
         String mapuri = uri;
         while (true) {
-            context = (Context) findChild(mapuri);
+            context = (Context) findChild(mapuri);  //根据uri直接find context.
             if (context != null)
                 break;
             int slash = mapuri.lastIndexOf('/');
@@ -622,7 +617,7 @@ public class StandardHost
             mapuri = mapuri.substring(0, slash);
         }
 
-        // If no Context matches, select the default Context
+        // If no Conext matches, select the default Context
         if (context == null) {
             if (debug > 1)
                 log("  Trying the default context");

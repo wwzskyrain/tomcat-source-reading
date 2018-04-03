@@ -129,7 +129,7 @@ public class BasicAuthenticator
      *
      * @param request Request we are processing
      * @param response Response we are creating
-     * @param login Login configuration describing how authentication
+     * @param config Login configuration describing how authentication
      *              should be performed
      *
      * @exception IOException if an input/output error occurs
@@ -141,7 +141,7 @@ public class BasicAuthenticator
 
         // Have we already authenticated someone?
         Principal principal =
-            ((HttpServletRequest) request.getRequest()).getUserPrincipal();
+            ((HttpServletRequest) request.getRequest()).getUserPrincipal(); //注册之后呢？还会调用这个方法authenticate方法吗？返回不会再是null了吧。
         if (principal != null) {
             if (debug >= 1)
                 log("Already authenticated '" + principal.getName() + "'");
@@ -153,13 +153,13 @@ public class BasicAuthenticator
             (HttpServletRequest) request.getRequest();
         HttpServletResponse hres =
             (HttpServletResponse) response.getResponse();
-        String authorization = request.getAuthorization();
+        String authorization = request.getAuthorization();  //什么意思。在哪里组装的authorization
         String username = parseUsername(authorization);
         String password = parsePassword(authorization);
-        principal = context.getRealm().authenticate(username, password);
-        if (principal != null) {
+        principal = context.getRealm().authenticate(username, password);    //
+        if (principal != null) {    //第一次访问页面时，username，password都是没有的，所以principal就返回空了。
             register(request, response, principal, Constants.BASIC_METHOD,
-                     username, password);
+                     username, password);   //为什么要注册principal到request中？因为后面的"authorize"会用到这个"principal"。
             return (true);
         }
 

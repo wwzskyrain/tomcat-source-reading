@@ -179,7 +179,7 @@ public class GenericPrincipal implements Principal {
      *
      * @param role Role to be tested
      */
-    public boolean hasRole(String role) {
+    public boolean hasRole(String role) {   //GenericPrincipal的角色在加载到内存时，进行了排序，因为一个Principal的角色是固定的，所以"通过排序来加快角色查询"是可行的。
 
         if (role == null)
             return (false);

@@ -63,7 +63,7 @@ public class SimpleRealm implements Realm {
                 !(principal instanceof GenericPrincipal))
             return (false);
         GenericPrincipal gp = (GenericPrincipal) principal;
-        if (!(gp.getRealm() == this))
+        if (!(gp.getRealm() == this))   //如果principal所关联的"领域对象"不是该对象，说明不在这个领域，返回false——你这个principal让其他"领域对象"帮你匹配角色去吧，你不归老子管。
             return (false);
         boolean result = gp.hasRole(role);
         return result;

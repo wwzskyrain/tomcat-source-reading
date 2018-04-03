@@ -65,21 +65,17 @@
 package org.apache.catalina.core;
 
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.security.PrivilegedActionException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.InstanceEvent;
 import org.apache.catalina.util.InstanceSupport;
 import org.apache.catalina.util.StringManager;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.PrivilegedActionException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -302,7 +298,7 @@ final class ApplicationFilterChain implements FilterChain {
     /**
      * Set the servlet that will be executed at the end of this chain.
      *
-     * @param wrapper The Wrapper for the servlet to be executed
+     * @param servlet The Wrapper for the servlet to be executed
      */
     void setServlet(Servlet servlet) {
 

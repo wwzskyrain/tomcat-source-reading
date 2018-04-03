@@ -65,60 +65,22 @@
 package org.apache.catalina.core;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.TreeMap;
-import java.util.Stack;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import org.apache.naming.ContextBindings;
-import org.apache.naming.resources.BaseDirContext;
-import org.apache.naming.resources.FileDirContext;
-import org.apache.naming.resources.ProxyDirContext;
-import org.apache.naming.resources.WARDirContext;
-import org.apache.naming.resources.DirContextURLStreamHandler;
-import org.apache.catalina.Container;
-import org.apache.catalina.ContainerListener;
-import org.apache.catalina.Context;
-import org.apache.catalina.Host;
-import org.apache.catalina.Globals;
-import org.apache.catalina.InstanceListener;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleEvent;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Loader;
-import org.apache.catalina.Mapper;
-import org.apache.catalina.Request;
-import org.apache.catalina.Response;
-import org.apache.catalina.Wrapper;
-import org.apache.catalina.deploy.ApplicationParameter;
-import org.apache.catalina.deploy.ContextEjb;
-import org.apache.catalina.deploy.ContextEnvironment;
-import org.apache.catalina.deploy.ContextLocalEjb;
-import org.apache.catalina.deploy.ContextResource;
-import org.apache.catalina.deploy.ContextResourceLink;
-import org.apache.catalina.deploy.ErrorPage;
-import org.apache.catalina.deploy.FilterDef;
-import org.apache.catalina.deploy.FilterMap;
-import org.apache.catalina.deploy.LoginConfig;
-import org.apache.catalina.deploy.NamingResources;
-import org.apache.catalina.deploy.ResourceParams;
-import org.apache.catalina.deploy.SecurityCollection;
-import org.apache.catalina.deploy.SecurityConstraint;
+import org.apache.catalina.*;
+import org.apache.catalina.deploy.*;
 import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.session.StandardManager;
 import org.apache.catalina.util.CharsetMapper;
 import org.apache.catalina.util.RequestUtil;
+import org.apache.naming.ContextBindings;
+import org.apache.naming.resources.*;
 import org.apache.tomcat.util.log.SystemLogHandler;
+
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.servlet.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 
 /**
@@ -1636,17 +1598,17 @@ public class StandardContext
      * the specified pattern.
      *
      * @param pattern URL pattern to be mapped
-     * @param name Name of the corresponding servlet to execute
+     * @param wrapperName Name of the corresponding servlet to execute
      *
      * @exception IllegalArgumentException if the specified servlet name
      *  is not known to this Context
      */
-    public void addServletMapping(String pattern, String name) {
+    public void addServletMapping(String pattern, String wrapperName) {
 
         // Validate the proposed mapping
-        if (findChild(name) == null)
+        if (findChild(wrapperName) == null)
             throw new IllegalArgumentException
-                (sm.getString("standardContext.servletMap.name", name));
+                (sm.getString("standardContext.servletMap.name", wrapperName));
         pattern = adjustURLPattern(RequestUtil.URLDecode(pattern));
         if (!validateURLPattern(pattern))
             throw new IllegalArgumentException
@@ -1654,7 +1616,7 @@ public class StandardContext
 
         // Add this mapping to our registered set
         synchronized (servletMappings) {
-            servletMappings.put(pattern, name);
+            servletMappings.put(pattern, wrapperName);
         }
         fireContainerEvent("addServletMapping", pattern);
 
@@ -3352,7 +3314,7 @@ public class StandardContext
         if (debug >= 1)
             log("Processing start(), current available=" + getAvailable());
         setAvailable(false);
-        setConfigured(false);
+        setConfigured(false);   //这里还没有调用ContextConfig呢。
         boolean ok = true;
 
         // Add missing components as necessary

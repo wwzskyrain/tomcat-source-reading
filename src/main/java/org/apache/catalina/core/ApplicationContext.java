@@ -65,40 +65,29 @@
 package org.apache.catalina.core;
 
 
-import java.io.InputStream;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import javax.naming.NamingException;
-import javax.naming.Binding;
-import javax.naming.directory.DirContext;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextAttributeEvent;
-import javax.servlet.ServletContextAttributeListener;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.naming.resources.Resource;
-import org.apache.naming.resources.DirContextURLStreamHandler;
-import org.apache.catalina.Context;
-import org.apache.catalina.Host;
-import org.apache.catalina.HttpRequest;
-import org.apache.catalina.Logger;
-import org.apache.catalina.Wrapper;
+import org.apache.catalina.*;
 import org.apache.catalina.deploy.ApplicationParameter;
 import org.apache.catalina.util.Enumerator;
 import org.apache.catalina.util.ResourceSet;
 import org.apache.catalina.util.ServerInfo;
 import org.apache.catalina.util.StringManager;
+import org.apache.naming.resources.DirContextURLStreamHandler;
+import org.apache.naming.resources.Resource;
+
+import javax.naming.Binding;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+import java.util.*;
 
 
 /**
@@ -634,7 +623,7 @@ public class ApplicationContext
             String fullPath = context.getName() + path;
 
             // this is the problem. Host must not be null
-            String hostName = context.getParent().getName();
+            String hostName = context.getParent().getName();    //除非不实用ContextConfig来配置Context实例。
 
             try {
                 resources.lookup(path);

@@ -201,7 +201,7 @@ public final class SecurityConstraint {
     /**
      * Return the user data constraint for this security constraint.
      */
-    public String getUserConstraint() {
+    public String getUserConstraint() { //什么是   user data constraint？
 
         return (userConstraint);
 

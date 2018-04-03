@@ -169,7 +169,7 @@ public abstract class AuthenticatorBase
     /**
      * The debugging detail level for this component.
      */
-    protected int debug = 0;
+    protected int debug = 2;
 
 
     /**
@@ -497,7 +497,7 @@ public abstract class AuthenticatorBase
         if (constraint.getAuthConstraint()) {
             if (debug >= 1)
                 log(" Calling authenticate()");
-            if (!authenticate(hrequest, hresponse, config)) {
+            if (!authenticate(hrequest, hresponse, config)) {   //第一次访问"受约束的页面--资源"时，在这里返回
                 if (debug >= 1)
                     log(" Failed authenticate() test");
                 // ASSERT: Authenticator already set the appropriate
@@ -574,7 +574,7 @@ public abstract class AuthenticatorBase
             }
         }
 
-        // Which user principal have we already authenticated?
+        // Which user principal have we already authenticated? 在register函数中，已经将"authorized"用户——principal——注册到request中了。
         Principal principal =
             ((HttpServletRequest) request.getRequest()).getUserPrincipal();
         if (principal == null) {
@@ -638,7 +638,7 @@ public abstract class AuthenticatorBase
      *
      * @param request Request we are processing
      * @param response Response we are creating
-     * @param login Login configuration describing how authentication
+     * @param config Login configuration describing how authentication
      *              should be performed
      *
      * @exception IOException if an input/output error occurs
