@@ -65,18 +65,12 @@
 package org.apache.catalina.core;
 
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import org.apache.catalina.Connector;
-import org.apache.catalina.Container;
-import org.apache.catalina.Engine;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Server;
-import org.apache.catalina.Service;
+import org.apache.catalina.*;
 import org.apache.catalina.util.LifecycleSupport;
 import org.apache.catalina.util.StringManager;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 
 /**
@@ -204,7 +198,7 @@ public final class StandardService
         if (started && (oldContainer != null) &&
             (oldContainer instanceof Lifecycle)) {
             try {
-                ((Lifecycle) oldContainer).stop();
+                ((Lifecycle) oldContainer).stop();  //没有连接器关联的容器Container就被stop了。
             } catch (LifecycleException e) {
                 ;
             }
@@ -565,8 +559,8 @@ public final class StandardService
      * Invoke a pre-startup initialization. This is used to allow connectors
      * to bind to restricted ports under Unix operating environments.
      */
-    public void initialize()
-    throws LifecycleException {
+    public void initialize()        //其父组件Server在初始化时就调用这个initialize方法。
+    throws LifecycleException {     //同理，这个initialize方法也调用connector的initialize方法
         if (initialized)
             throw new LifecycleException (
                 sm.getString("standardService.initialize.initialized"));

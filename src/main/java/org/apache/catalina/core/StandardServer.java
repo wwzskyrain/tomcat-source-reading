@@ -135,7 +135,7 @@ import org.apache.catalina.util.StringManager;
  */
 
 public final class StandardServer
-    implements Lifecycle, Server {
+    implements Lifecycle, Server {  //在一个端口上
 
 
     // -------------------------------------------------------------- Constants
@@ -383,7 +383,7 @@ public final class StandardServer
     /**
      * Set the global naming resources.
      *
-     * @param namingResources The new global naming resources
+     * @param globalNamingResources The new global naming resources
      */
     public void setGlobalNamingResources
         (NamingResources globalNamingResources) {
@@ -576,7 +576,7 @@ public final class StandardServer
 
         // Close the server socket and return
         try {
-            serverSocket.close();
+            serverSocket.close();   //关闭serverSocket就关闭应用程序了吗？
         } catch (IOException e) {
             ;
         }
@@ -701,11 +701,11 @@ public final class StandardServer
      * Write the configuration information for this entire <code>Server</code>
      * out to the server.xml configuration file.
      *
-     * @exception InstanceNotFoundException if the managed resource object
+     * @exception Exception if the managed resource object
      *  cannot be found
-     * @exception MBeanException if the initializer of the object throws
+     * @exception Exception if the initializer of the object throws
      *  an exception, or persistence is not supported
-     * @exception RuntimeOperationsException if an exception is reported
+     * @exception Exception if an exception is reported
      *  by the persistence mechanism
      */
     public synchronized void store() throws Exception {

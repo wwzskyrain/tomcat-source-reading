@@ -201,7 +201,7 @@ public class StandardEngineMapper
             if (debug >= 2)
                 engine.log(" Trying an alias match");
             Container children[] = engine.findChildren();
-            for (int i = 0; i < children.length; i++) {
+            for (int i = 0; i < children.length; i++) {             //匹配：从request中获取server用于匹配host的alias.
                 String aliases[] = ((Host) children[i]).findAliases();
                 for (int j = 0; j < aliases.length; j++) {
                     if (server.equals(aliases[j])) {

@@ -1,25 +1,29 @@
-package ex13.pyrmont.startup;
+package ex14.pyrmont.startup;
 
-//explain Host
-
-import ex13.pyrmont.core.SimpleContextConfig;
+import ex14.pyrmont.core.SimpleContextConfig;
 import org.apache.catalina.Connector;
 import org.apache.catalina.Context;
+import org.apache.catalina.Engine;
 import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.Loader;
+import org.apache.catalina.Server;
+import org.apache.catalina.Service;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.connector.http.HttpConnector;
 import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.core.StandardEngine;
 import org.apache.catalina.core.StandardHost;
+import org.apache.catalina.core.StandardServer;
+import org.apache.catalina.core.StandardService;
 import org.apache.catalina.core.StandardWrapper;
 import org.apache.catalina.loader.WebappLoader;
 
-
-public final class Bootstrap1 {
+public final class Bootstrap {
     public static void main(String[] args) {
-        //invoke: http://localhost:8080/app1/Primitive or http://localhost:8080/app1/Modern
+
         System.setProperty("catalina.base", System.getProperty("user.dir"));
         Connector connector = new HttpConnector();
 
@@ -42,7 +46,7 @@ public final class Bootstrap1 {
         ((Lifecycle) context).addLifecycleListener(listener);
 
         Host host = new StandardHost();
-        host.addChild(context);         //配置父子容器关系
+        host.addChild(context);
         host.setName("localhost");
         host.setAppBase("webapps");
 
@@ -52,17 +56,39 @@ public final class Bootstrap1 {
         context.addServletMapping("/Primitive", "Primitive");
         context.addServletMapping("/Modern", "Modern");
 
-        connector.setContainer(host);
-        try {
-            connector.initialize();
-            ((Lifecycle) connector).start();
-            ((Lifecycle) host).start();
+        Engine engine = new StandardEngine();
+        engine.addChild(host);
+        engine.setDefaultHost("localhost");
 
-            // make the application wait until we press a key.
-            System.in.read();
-            ((Lifecycle) host).stop();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Service service = new StandardService();
+        service.setName("Stand-alone Service");
+        Server server = new StandardServer();
+        server.addService(service);
+        service.addConnector(connector);
+
+        //StandardService class's setContainer will call all its connector's setContainer method
+        service.setContainer(engine);
+
+        // Start the new server
+        if (server instanceof Lifecycle) {
+            try {
+                server.initialize();
+                ((Lifecycle) server).start();
+                server.await();     //用阻塞的方式来做关闭的开关。
+                // the program waits until the await method returns,
+                // i.e. until a shutdown command is received.
+            } catch (LifecycleException e) {
+                e.printStackTrace(System.out);
+            }
+        }
+
+        // Shut down the server
+        if (server instanceof Lifecycle) {
+            try {
+                ((Lifecycle) server).stop();
+            } catch (LifecycleException e) {
+                e.printStackTrace(System.out);
+            }
         }
     }
 }

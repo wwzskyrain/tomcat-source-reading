@@ -64,15 +64,10 @@
 
 package org.apache.catalina;
 
-import java.beans.PropertyChangeListener;
+import org.apache.catalina.deploy.*;
+
 import javax.naming.directory.DirContext;
-import org.apache.catalina.deploy.ApplicationParameter;
-import org.apache.catalina.deploy.ContextEjb;
-import org.apache.catalina.deploy.ContextEnvironment;
-import org.apache.catalina.deploy.ContextResource;
-import org.apache.catalina.deploy.ContextResourceLink;
-import org.apache.catalina.deploy.NamingResources;
-import org.apache.catalina.deploy.ResourceParams;
+import java.beans.PropertyChangeListener;
 
 
 /**
@@ -171,7 +166,6 @@ public interface DefaultContext {
      * Get the resources DirContext object with which this Container is
      * associated.
      *
-     * @param resources The new associated DirContext
      */
     public DirContext getResources();
 
@@ -345,7 +339,6 @@ public interface DefaultContext {
     /**
      * Add a resource link for this web application.
      *
-     * @param resource New resource link
      */
     public void addResourceLink(ContextResourceLink resourceLink);
 

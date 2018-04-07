@@ -114,7 +114,7 @@ public interface Server {
     /**
      * Set the global naming resources.
      * 
-     * @param namingResources The new global naming resources
+     * @param globalNamingResources The new global naming resources
      */
     public void setGlobalNamingResources
     (NamingResources globalNamingResources);
@@ -127,7 +127,7 @@ public interface Server {
 
 
     /**
-     * Set the port number we listen to for shutdown commands.
+     * Set the port number we listen to for shutdown commands.  //这个port只管"关闭"，http（port=80）是不会请求这个端口的。
      *
      * @param port The new port number
      */
@@ -177,7 +177,7 @@ public interface Server {
     /**
      * Return the set of Services defined within this Server.
      */
-    public Service[] findServices();
+    public Service[] findServices();    //什么叫Service
 
 
     /**
