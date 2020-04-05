@@ -283,6 +283,10 @@ public class HttpRequest implements HttpServletRequest {
         this.requestedSessionCookie = flag;
     }
 
+    /**
+     * erik.wang 就是这里——如何设置sessionId和生成session和管理session，触发我们这次来看tomcat的源码的
+     * @param requestedSessionId
+     */
     public void setRequestedSessionId(String requestedSessionId) {
         this.requestedSessionId = requestedSessionId;
     }

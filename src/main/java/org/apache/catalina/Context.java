@@ -288,7 +288,7 @@ public interface Context extends Container {
 
 
     /**
-     * Set the context path for this web application.
+     * Set the  for this web application.
      *
      * @param path The new context path
      */

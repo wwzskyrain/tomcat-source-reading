@@ -576,7 +576,7 @@ public final class StandardServer
 
         // Close the server socket and return
         try {
-            serverSocket.close();   //关闭serverSocket就关闭应用程序了吗？
+            serverSocket.close();   //关闭serverSocket就关闭应用程序了吗？当然不是啦
         } catch (IOException e) {
             ;
         }

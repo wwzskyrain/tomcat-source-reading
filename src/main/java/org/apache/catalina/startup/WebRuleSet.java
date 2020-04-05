@@ -63,7 +63,6 @@
 package org.apache.catalina.startup;
 
 
-import java.lang.reflect.Method;
 import org.apache.catalina.Context;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.deploy.SecurityConstraint;
@@ -71,6 +70,8 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.RuleSetBase;
 import org.xml.sax.Attributes;
+
+import java.lang.reflect.Method;
 
 
 /**
@@ -447,6 +448,7 @@ final class SetPublicIdRule extends Rule {
 
     private String method = null;
 
+    @Override
     public void begin(Attributes attributes) throws Exception {
 
         Context context = (Context) digester.peek(digester.getCount() - 1);

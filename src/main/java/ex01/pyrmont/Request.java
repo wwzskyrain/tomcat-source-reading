@@ -24,11 +24,12 @@ public class Request {  //最简单的Request了吧。
             i = -1;
         }
         for (int j = 0; j < i; j++) {
-            request.append((char) buffer[j]);   //把byte数据直接强转成char数据。
+            request.append((char) buffer[j]);
+            //把byte数据直接强转成char数据。
         }
         System.out.print(request.toString());
         uri = parseUri(request.toString());
-        System.out.println("uri : "+uri);
+        System.out.println("uri : " + uri);
     }
 
     private String parseUri(String requestString) {
@@ -36,8 +37,9 @@ public class Request {  //最简单的Request了吧。
         index1 = requestString.indexOf(' ');
         if (index1 != -1) {
             index2 = requestString.indexOf(' ', index1 + 1);
-            if (index2 > index1)
+            if (index2 > index1) {
                 return requestString.substring(index1 + 1, index2);
+            }
         }
         return null;
     }

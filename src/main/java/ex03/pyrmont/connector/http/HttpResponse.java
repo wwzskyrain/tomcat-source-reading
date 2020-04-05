@@ -202,8 +202,9 @@ public class HttpResponse implements HttpServletResponse {
      * Send the HTTP response headers, if this has not already occurred.
      */
     protected void sendHeaders() throws IOException {
-        if (isCommitted())
+        if (isCommitted()) {
             return;
+        }
         // Prepare a suitable output writer
         OutputStreamWriter osr = null;
         try {
@@ -292,7 +293,7 @@ public class HttpResponse implements HttpServletResponse {
         byte[] bytes = new byte[BUFFER_SIZE];
         FileInputStream fis = null;
         try {
-      /* request.getUri has been replaced by request.getRequestURI */
+            /* request.getUri has been replaced by request.getRequestURI */
             File file = new File(Constants.WEB_ROOT, request.getRequestURI());
             fis = new FileInputStream(file);
       /*
@@ -507,8 +508,9 @@ public class HttpResponse implements HttpServletResponse {
     }
 
     public void setHeader(String name, String value) {
-        if (isCommitted())
+        if (isCommitted()) {
             return;
+        }
 //    if (included)
         //    return;     // Ignore any call from an included servlet
         ArrayList values = new ArrayList();

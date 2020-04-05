@@ -88,7 +88,7 @@ public class HttpProcessor {
             HttpHeader header = new HttpHeader();
             ;
 
-            // Read the next header
+            // Read the next header；其内部就要从socket中读取字节了。有兴趣的话可以再深究。
             input.readHeader(header);
             if (header.nameEnd == 0) {
                 if (header.valueEnd == 0) {
